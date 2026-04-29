@@ -1,0 +1,65 @@
+#  Gestión de Alumnos (CRUD)
+
+Este proyecto es una aplicación web que permite gestionar un listado de alumnos mediante operaciones CRUD (Crear, Leer, Actualizar y Eliminar), utilizando **JavaScript y JSON Server como base de datos simulada**.
+
+
+
+#  Cómo ejecutar el proyecto
+
+## Iniciar JSON Server
+
+Para que la aplicación funcione correctamente, es necesario iniciar el servidor JSON ejecutando el siguiente comando en la raíz del proyecto:
+
+npx json-server --watch db.json
+
+
+
+##  Ejecutar la aplicación
+
+Luego de iniciar el servidor, abrir el archivo:
+
+index.html
+
+
+Se recomienda utilizar **Live Server** en Visual Studio Code para un correcto funcionamiento.
+
+
+#  Descripción del proyecto
+
+El sistema permite administrar información de alumnos, incluyendo los siguientes datos:
+
+* Nombre
+* Apellido
+* Edad
+* Email
+* Comisión
+* Estado (activo/inactivo)
+
+Los datos se almacenan y gestionan mediante una API simulada con JSON Server.
+
+
+# Funcionalidades
+
+* ✔ Registro de alumnos
+* ✔ Listado dinámico de alumnos
+* ✔ Edición de registros existentes
+* ✔ Eliminación de alumnos
+* ✔ Validación de datos ingresados
+* ✔ Manejo de estado activo/inactivo
+* ✔ Interfaz dinámica sin recarga de página
+
+
+# Tecnologías utilizadas
+
+* HTML5
+* CSS3
+* JavaScript (ES Modules)
+* JSON Server
+
+
+# Nota importante
+
+Este proyecto utiliza **JSON Server como API simulada**, por lo tanto es obligatorio ejecutarlo antes de usar la aplicación:
+
+npx json-server --watch db.json
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Alumnos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="container">
+
+    <section class="header">
+      <h1>Gestión de Alumnos</h1>
+      <p>Administración de registros mediante operaciones CRUD</p>
+    </section>
+
+    <section class="card">
+      <h2 id="form-title">Registrar Alumno</h2>
+
+      <form id="alumno-form">
+
+        <input type="hidden" id="alumno-id">
+
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Ingrese el nombre">
+        </div>
+
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" placeholder="Ingrese el apellido">
+        </div>
+
+        <div class="field">
+          <label for="edad">Edad</label>
+          <input type="number" id="edad" placeholder="Ingrese la edad">
+        </div>
+
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="Ingrese el email">
+        </div>
+
+        <div class="field">
+          <label for="comision">Comisión</label>
+          <input type="text" id="comision" placeholder="Ingrese la comisión">
+        </div>
+
+        <div class="checkbox">
+          <input type="checkbox" id="activo" checked>
+          <label for="activo">Alumno activo</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Guardar</button>
+          <button type="button" id="cancel-btn" hidden>Cancelar</button>
+        </div>
+
+      </form>
+
+      <p id="message" class="message"></p>
+    </section>
+
+    <section class="card">
+      <div class="list-header">
+        <h2>Listado de Alumnos</h2>
+        <span id="total-alumnos">Total: 0</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Edad</th>
+              <th>Email</th>
+              <th>Comisión</th>
+              <th>Estado</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody id="alumnos-list"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

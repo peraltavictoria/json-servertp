@@ -1,0 +1,13 @@
+{
+  "alumnos": [
+    {
+      "id": 1,
+      "nombre": "Ana",
+      "apellido": "Gomez",
+      "edad": 20,
+      "email": "ana@gmail.com",
+      "comision": "A",
+      "activo": true
+    }
+  ]
+}
