@@ -10,7 +10,7 @@ Este proyecto es una aplicación web que permite gestionar un listado de alumnos
 
 Para que la aplicación funcione correctamente, es necesario iniciar el servidor JSON ejecutando el siguiente comando en la raíz del proyecto:
 
-npx json-server --watch db.json
+npx json-server --watch db.json --port 3000
 
 
 
