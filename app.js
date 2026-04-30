@@ -1,4 +1,7 @@
-import { listarAlumnos, agregarAlumno, editarAlumno, borrarAlumno } from "./api.js";
+console.log("APP CARGADA");
+
+
+import { listarAlumnos, agregarAlumno, editarAlumno, borrarAlumno } from "../js/api.js";
 import {
   eventoFormulario,
   eventoCancelar,
@@ -10,30 +13,28 @@ import {
   modoAgregar,
   modoEditar,
   renderizarAlumnos
-} from "./ui.js";
-import { validarAlumno } from "./validators.js";
+} from "../js/ui.js";
+import { validarAlumno } from "../js/validators.js";
 
 let alumnos = [];
 
 async function cargarAlumnos() {
-  limpiarMensaje();
-
   try {
     alumnos = await listarAlumnos();
     renderizarAlumnos(alumnos);
   } catch (error) {
-    mostrarMensaje(error.message || "No se pudieron cargar los alumnos.", "error");
+    mostrarMensaje("Error al cargar alumnos", "error");
   }
 }
 
-async function guardarAlumno(event) {
-  event.preventDefault();
+async function guardarAlumno(e) {
+  e.preventDefault();
 
   const datos = obtenerDatosFormulario();
-  const errorValidacion = validarAlumno(datos);
+  const error = validarAlumno(datos);
 
-  if (errorValidacion) {
-    mostrarMensaje(errorValidacion, "error");
+  if (error) {
+    mostrarMensaje(error, "error");
     return;
   }
 
@@ -41,75 +42,51 @@ async function guardarAlumno(event) {
 
   try {
     if (id) {
-      await editarAlumno(id, {
-        id: Number(id),
-        ...datos
-      });
-
-      mostrarMensaje("Alumno actualizado correctamente.");
+      await editarAlumno(id, { ...datos, id });
+      mostrarMensaje("Alumno actualizado ✓", "ok");
     } else {
       await agregarAlumno(datos);
-      mostrarMensaje("Alumno agregado correctamente.");
+      mostrarMensaje("Alumno agregado ✓", "ok");
     }
 
     modoAgregar();
     await cargarAlumnos();
 
-  } catch (error) {
-    mostrarMensaje(error.message || "No se pudo guardar el alumno.", "error");
+  } catch (err) {
+    console.error("Error al guardar:", err);
+    mostrarMensaje("Error al guardar. ¿Está corriendo json-server?", "error");
   }
 }
 
-function cancelarEdicion() {
-  modoAgregar();
-  mostrarMensaje("Edición cancelada.");
-}
-
-async function accionesLista(event) {
-  const boton = event.target.closest("button");
+async function accionesLista(e) {
+  const boton = e.target.closest("button");
   if (!boton) return;
 
   const id = boton.dataset.id;
   const accion = boton.dataset.action;
 
-  if (!id || !accion) return;
-
   if (accion === "edit") {
-    const alumnoSeleccionado = alumnos.find(alumno => String(alumno.id) === String(id));
-
-    if (!alumnoSeleccionado) {
-      mostrarMensaje("No se encontró el alumno.", "error");
-      return;
-    }
-
-    modoEditar(alumnoSeleccionado);
-    limpiarMensaje();
-    return;
+    const alumno = alumnos.find(a => String(a.id) === String(id));
+    if (alumno) modoEditar(alumno);
   }
 
   if (accion === "delete") {
-    const confirmar = confirm("¿Desea eliminar este alumno?");
-    if (!confirmar) return;
+    if (!confirm("¿Eliminar alumno?")) return;
 
     try {
       await borrarAlumno(id);
-
-      mostrarMensaje("Alumno eliminado correctamente.");
-
-      if (String(obtenerIdEdicion()) === String(id)) {
-        modoAgregar();
-      }
-
+      mostrarMensaje("Alumno eliminado ✓", "ok");
+      modoAgregar();
       await cargarAlumnos();
-
-    } catch (error) {
-      mostrarMensaje(error.message || "No se pudo eliminar el alumno.", "error");
+    } catch (err) {
+      console.error("Error al eliminar:", err);
+      mostrarMensaje("Error al eliminar", "error");
     }
   }
 }
 
 eventoFormulario(guardarAlumno);
-eventoCancelar(cancelarEdicion);
+eventoCancelar(modoAgregar);
 eventoLista(accionesLista);
 
 modoAgregar();
