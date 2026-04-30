@@ -1,6 +1,4 @@
 const form = document.getElementById("alumno-form");
-const tituloForm = document.getElementById("form-title");
-
 const idAlumno = document.getElementById("alumno-id");
 const nombre = document.getElementById("nombre");
 const apellido = document.getElementById("apellido");
@@ -8,22 +6,22 @@ const edad = document.getElementById("edad");
 const email = document.getElementById("email");
 const comision = document.getElementById("comision");
 const activo = document.getElementById("activo");
-
-const btnCancelar = document.getElementById("cancel-btn");
 const mensaje = document.getElementById("message");
 const lista = document.getElementById("alumnos-list");
 const total = document.getElementById("total-alumnos");
+const titulo = document.getElementById("form-title");
+const cancelar = document.getElementById("cancel-btn");
 
-export function eventoFormulario(callback) {
-  form.addEventListener("submit", callback);
+export function eventoFormulario(fn) {
+  form.addEventListener("submit", fn);
 }
 
-export function eventoCancelar(callback) {
-  btnCancelar.addEventListener("click", callback);
+export function eventoCancelar(fn) {
+  cancelar.addEventListener("click", fn);
 }
 
-export function eventoLista(callback) {
-  lista.addEventListener("click", callback);
+export function eventoLista(fn) {
+  lista.addEventListener("click", fn);
 }
 
 export function obtenerDatosFormulario() {
@@ -48,15 +46,14 @@ export function mostrarMensaje(texto, tipo = "ok") {
 
 export function limpiarMensaje() {
   mensaje.textContent = "";
-  mensaje.className = "message";
 }
 
 export function modoAgregar() {
   form.reset();
   idAlumno.value = "";
   activo.checked = true;
-  tituloForm.textContent = "Registrar Alumno";
-  btnCancelar.hidden = true;
+  cancelar.hidden = true;
+  titulo.textContent = "Registrar Alumno";
 }
 
 export function modoEditar(alumno) {
@@ -67,22 +64,12 @@ export function modoEditar(alumno) {
   email.value = alumno.email;
   comision.value = alumno.comision;
   activo.checked = alumno.activo;
-
-  tituloForm.textContent = "Editar Alumno";
-  btnCancelar.hidden = false;
+  cancelar.hidden = false;
+  titulo.textContent = "Editar Alumno";
 }
 
 export function renderizarAlumnos(alumnos) {
-  total.textContent = `Total: ${alumnos.length}`;
-
-  if (alumnos.length === 0) {
-    lista.innerHTML = `
-      <tr>
-        <td colspan="7">No hay alumnos registrados.</td>
-      </tr>
-    `;
-    return;
-  }
+  total.textContent = alumnos.length;
 
   lista.innerHTML = alumnos.map(alumno => `
     <tr>
@@ -91,20 +78,10 @@ export function renderizarAlumnos(alumnos) {
       <td>${alumno.edad}</td>
       <td>${alumno.email}</td>
       <td>${alumno.comision}</td>
+      <td>${alumno.activo ? "Activo" : "Inactivo"}</td>
       <td>
-        <span class="status ${alumno.activo ? "on" : "off"}">
-          ${alumno.activo ? "Activo" : "Inactivo"}
-        </span>
-      </td>
-      <td>
-        <div class="action-buttons">
-          <button type="button" data-action="edit" data-id="${alumno.id}">
-            Editar
-          </button>
-          <button type="button" class="warn" data-action="delete" data-id="${alumno.id}">
-            Eliminar
-          </button>
-        </div>
+        <button data-action="edit" data-id="${alumno.id}">Editar</button>
+        <button data-action="delete" data-id="${alumno.id}" class="warn">Eliminar</button>
       </td>
     </tr>
   `).join("");
