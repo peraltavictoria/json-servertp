@@ -61,5 +61,5 @@ Los datos se almacenan y gestionan mediante una API simulada con JSON Server.
 
 Este proyecto utiliza **JSON Server como API simulada**, por lo tanto es obligatorio ejecutarlo antes de usar la aplicación:
 
-npx json-server --watch db.json
+npx json-server --watch db.json --port 3000
 
